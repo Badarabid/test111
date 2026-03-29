@@ -1,0 +1,24 @@
+name: AWS CI CD
+
+on:
+  push:
+    branches: [ main ] # Jab aap main branch pe push karein
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          username: ubuntu
+          key: ${{ secrets.AWS_PRIVATE_KEY }}
+          script: |
+            cd /home/ubuntu/your-project-name # Apne server folder ka path yahan likhein
+            git pull origin main
+            npm install
+            pm2 restart all
