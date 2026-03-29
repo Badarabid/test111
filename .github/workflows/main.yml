@@ -1,13 +1,8 @@
-Zaroor, ye raha woh code jo aapne apni .github/workflows/deploy.yml file mein paste karna hai.
-
-Is code mein maine wahi Secrets use kiye hain jo aapne GitHub mein add kiye thay (AWS_HOST, AWS_PRIVATE_KEY, aur EC2_USER).
-
-YAML
 name: AWS CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ] # Jab aap code push karenge tab ye chalega
+    branches: [ main ]
 
 jobs:
   deploy:
