@@ -1,8 +1,8 @@
-name: AWS CI CD
+name: AWS CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ] # Jab aap main branch pe push karein
+    branches: [ main ] # Jab aap code push karein ge tab ye chalega
 
 jobs:
   deploy:
@@ -11,14 +11,14 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Deploy to Server
+      - name: Deploy to AWS
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.AWS_HOST }}
           username: ubuntu
           key: ${{ secrets.AWS_PRIVATE_KEY }}
           script: |
-            cd /home/ubuntu/your-project-name # Apne server folder ka path yahan likhein
+            cd /home/ubuntu/gfdsa  # Yahan apne server wale folder ka sahi path likhein
             git pull origin main
             npm install
-            pm2 restart all
+            pm2 restart all || pm2 start ecosystem.config.js
