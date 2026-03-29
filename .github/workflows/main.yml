@@ -1,0 +1,29 @@
+Zaroor, ye raha woh code jo aapne apni .github/workflows/deploy.yml file mein paste karna hai.
+
+Is code mein maine wahi Secrets use kiye hain jo aapne GitHub mein add kiye thay (AWS_HOST, AWS_PRIVATE_KEY, aur EC2_USER).
+
+YAML
+name: AWS CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ] # Jab aap code push karenge tab ye chalega
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Deploy to Server via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.AWS_PRIVATE_KEY }}
+          script: |
+            cd /home/ubuntu/gfdsa
+            git pull origin main
+            npm install
+            pm2 restart all || pm2 start server.js --name "my-app"
